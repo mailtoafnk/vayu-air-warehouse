@@ -22,19 +22,23 @@
   }
 
   *{box-sizing:border-box;}
+  html{height:100%;}
   body{
+    height:100%;
+    overflow:hidden;
     background:var(--ink);
     color:var(--paper);
     font-family:'Manrope',system-ui,-apple-system,Segoe UI,sans-serif;
     margin:0;
     padding:0 16px;
   }
-  .wrap{max-width:1080px;margin:0 auto;padding-block:40px 56px;}
+  .app{max-width:1080px;margin:0 auto;height:100%;display:flex;flex-direction:column;
+       padding-block:24px 16px;min-height:0;}
 
   a{color:var(--teal);}
 
   /* header */
-  .top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;
+  .top{flex:none;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;
        border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:22px;}
   .brand{display:flex;align-items:center;gap:12px;}
   .brand svg{width:34px;height:34px;flex:none;}
@@ -43,20 +47,20 @@
   .tagline{margin:0;color:var(--fog);font-size:13.5px;max-width:280px;text-align:right;line-height:1.5;}
 
   /* stats */
-  .stats{display:flex;flex-wrap:wrap;gap:22px 30px;list-style:none;margin:0 0 26px;padding:0;
+  .stats{flex:none;display:flex;flex-wrap:wrap;gap:22px 30px;list-style:none;margin:0 0 22px;padding:0;
          font-variant-numeric:tabular-nums;}
   .stats li{display:flex;flex-direction:column;gap:2px;}
   .stat-label{font-size:11.5px;color:var(--fog);text-transform:uppercase;letter-spacing:.1em;}
   .stat-value{font-size:19px;font-weight:700;color:var(--paper);}
 
-  /* two-column layout: question list on the left, detail on the right */
-  .layout{display:flex;gap:30px;align-items:flex-start;}
+  /* two-column layout: question list on the left (fixed), detail on the right (scrolls) */
+  .layout{flex:1;min-height:0;display:flex;gap:30px;align-items:stretch;overflow:hidden;}
 
   .sidebar{flex:0 0 250px;display:flex;flex-direction:column;gap:4px;
-           position:sticky;top:20px;}
+           overflow-y:auto;padding-right:4px;scrollbar-width:thin;}
   .qitem{display:flex;flex-direction:column;gap:3px;text-align:left;background:transparent;
         border:none;border-left:3px solid var(--line-soft);border-radius:0 8px 8px 0;
-        padding:9px 14px;cursor:pointer;color:var(--fog);font-family:inherit;}
+        padding:9px 14px;cursor:pointer;color:var(--fog);font-family:inherit;flex:none;}
   .qitem .qn{color:var(--amber);font-weight:800;font-size:12px;letter-spacing:.03em;}
   .qitem .qt{font-size:13.5px;font-weight:600;line-height:1.35;color:var(--paper);}
   .qitem.active{border-left-color:var(--amber);background:linear-gradient(90deg,var(--amber-soft),transparent);}
@@ -64,7 +68,9 @@
   .qitem:not(.active):hover{background:var(--panel-2);}
 
   /* panel */
-  .main{flex:1;min-width:0;border-left:1px solid var(--line);padding-left:32px;}
+  .main{flex:1;min-width:0;min-height:0;border-left:1px solid var(--line);padding-left:32px;
+       display:flex;flex-direction:column;overflow:hidden;}
+  .scroll{flex:1;min-height:0;overflow-y:auto;padding-right:6px;scrollbar-width:thin;}
   .panels{}
   .panel{display:none;}
   .panel.active{display:block;animation:fade .25s ease;}
@@ -101,7 +107,8 @@
   .verified p:last-child{margin-bottom:0;}
   .metric{color:var(--amber);font-weight:700;font-family:'JetBrains Mono',monospace;font-size:.95em;}
 
-  .pager{display:flex;justify-content:space-between;align-items:center;margin-top:26px;}
+  .pager{flex:none;display:flex;justify-content:space-between;align-items:center;
+        margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
   .pager button{background:var(--panel);border:1px solid var(--line);color:var(--paper);
                 border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;font-family:inherit;}
   .pager button:disabled{opacity:.35;cursor:default;}
@@ -110,15 +117,21 @@
 
   .credit{margin-top:36px;color:#556;font-size:12px;text-align:center;}
 
+  /* below this width the fixed app-shell gives way to a normal scrolling page -
+     a sticky sidebar-plus-scroll-region layout doesn't work well on a phone */
   @media (max-width:760px){
-    .layout{flex-direction:column;gap:16px;align-items:stretch;}
-    .sidebar{flex:none;width:100%;flex-direction:row;overflow-x:auto;position:static;
+    html,body{height:auto;overflow:visible;}
+    .app{height:auto;padding-block:24px 40px;}
+    .layout{flex-direction:column;gap:16px;align-items:stretch;overflow:visible;}
+    .sidebar{flex:none;width:100%;flex-direction:row;overflow-x:auto;overflow-y:visible;
              gap:8px;padding-bottom:6px;scrollbar-width:thin;}
     .qitem{flex:0 0 auto;min-width:170px;border-left:none;border-bottom:3px solid var(--line-soft);
           border-radius:8px 8px 0 0;}
     .qitem.active{background:linear-gradient(180deg,var(--amber-soft),transparent);}
     .main{flex:none;width:100%;min-width:0;border-left:none;padding-left:0;
-          border-top:1px solid var(--line);padding-top:20px;}
+          border-top:1px solid var(--line);padding-top:20px;overflow:visible;}
+    .scroll{overflow:visible;}
+    .pager{border-top:none;margin-top:22px;padding-top:0;}
   }
 
   @media (max-width:520px){
@@ -128,7 +141,7 @@
   }
 </style>
 
-<div class="wrap">
+<div class="app">
   <header class="top">
     <div class="brand">
       <svg viewBox="0 0 48 48" fill="none">
@@ -146,16 +159,18 @@
 
   <div class="layout">
     <nav class="sidebar" id="qnav"></nav>
-    <main class="main"><div class="panels" id="panels"></div></main>
+    <main class="main">
+      <div class="scroll">
+        <div class="panels" id="panels"></div>
+        <p class="credit">Codebasics Data Engineering Bootcamp · Session 3 — Data Modeling &amp; Warehouse Engineering</p>
+      </div>
+      <footer class="pager">
+        <button id="prevBtn">← prev</button>
+        <span id="counter"></span>
+        <button id="nextBtn">next →</button>
+      </footer>
+    </main>
   </div>
-
-  <footer class="pager">
-    <button id="prevBtn">← prev</button>
-    <span id="counter"></span>
-    <button id="nextBtn">next →</button>
-  </footer>
-
-  <p class="credit">Codebasics Data Engineering Bootcamp · Session 3 — Data Modeling &amp; Warehouse Engineering</p>
 </div>
 
 <script>
@@ -366,7 +381,7 @@ function render(){
   document.getElementById('nextBtn').disabled = active === QUESTIONS.length - 1;
 
   document.querySelectorAll('.qitem').forEach(btn=>{
-    btn.addEventListener('click', ()=>{ active = Number(btn.dataset.i); render();
+    btn.addEventListener('click', ()=>{ goTo(Number(btn.dataset.i));
       document.querySelector('.qitem.active')?.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'}); });
   });
   document.querySelectorAll('.copybtn').forEach(btn=>{
@@ -379,8 +394,15 @@ function render(){
   });
 }
 
-document.getElementById('prevBtn').addEventListener('click', ()=>{ if(active>0){active--; render();} });
-document.getElementById('nextBtn').addEventListener('click', ()=>{ if(active<QUESTIONS.length-1){active++; render();} });
+function goTo(i){
+  active = i;
+  render();
+  const scroller = document.querySelector('.scroll');
+  if(scroller) scroller.scrollTop = 0;
+}
+
+document.getElementById('prevBtn').addEventListener('click', ()=>{ if(active>0) goTo(active-1); });
+document.getElementById('nextBtn').addEventListener('click', ()=>{ if(active<QUESTIONS.length-1) goTo(active+1); });
 
 render();
 </script>
