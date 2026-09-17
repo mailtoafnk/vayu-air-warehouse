@@ -1,5 +1,10 @@
 # Vayu Air Warehouse — Session 3: Data Modeling & Warehouse Engineering
 
+**Live walkthrough:** [mailtoafnk.github.io/vayu-air-warehouse](https://mailtoafnk.github.io/vayu-air-warehouse/)
+— a guided, question-by-question tour of Q1–Q7 (grain, star schema, SCD2,
+partitioning, medallion mapping) with the real verification numbers from the
+live database. The scripts and write-up below are the full detail behind it.
+
 Codebasics Data Engineering Bootcamp. Engine: SQL Server (T-SQL), run in SSMS
 on the `VayuAir` database.
 
@@ -24,6 +29,7 @@ screenshots/
   q6_partition_key_query_plan.png     <- Query A execution plan (Actual Partition Count)
   q6_non_partition_query_plan.png     <- Query B execution plan (Actual Partition Count)
 README.md   <- this file (design write-up + Q7(a) medallion mapping)
+index.html  <- the live walkthrough page above, served via GitHub Pages
 ```
 
 Run the `sql/` scripts in numeric order against a fresh `VayuAir` database.
