@@ -1,0 +1,372 @@
+<title>Vayu Air Warehouse</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --ink:#0a0f1c;
+    --panel:#121a2e;
+    --panel-2:#19233d;
+    --line:#28324f;
+    --line-soft:#1d2740;
+    --paper:#eef1f8;
+    --fog:#8f9bbc;
+    --amber:#f5b942;
+    --amber-soft:#3a2d14;
+    --teal:#5fe1c9;
+    --teal-soft:#12312c;
+    --kw:#7dc4ff;
+    --str:#f5b942;
+    --num:#c8a6ff;
+    --com:#5f6b8a;
+    --fn:#5fe1c9;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Manrope',system-ui,-apple-system,Segoe UI,sans-serif;
+    margin:0;
+    padding:0 16px;
+  }
+  .wrap{max-width:840px;margin:0 auto;padding-block:40px 56px;}
+
+  a{color:var(--teal);}
+
+  /* header */
+  .top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;
+       border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:22px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand svg{width:34px;height:34px;flex:none;}
+  .brand-name{font-size:26px;font-weight:800;letter-spacing:-0.01em;line-height:1.05;}
+  .brand-sub{font-size:13px;color:var(--fog);letter-spacing:.14em;text-transform:uppercase;margin-top:2px;}
+  .tagline{margin:0;color:var(--fog);font-size:13.5px;max-width:280px;text-align:right;line-height:1.5;}
+
+  /* stats */
+  .stats{display:flex;flex-wrap:wrap;gap:22px 30px;list-style:none;margin:0 0 26px;padding:0;
+         font-variant-numeric:tabular-nums;}
+  .stats li{display:flex;flex-direction:column;gap:2px;}
+  .stat-label{font-size:11.5px;color:var(--fog);text-transform:uppercase;letter-spacing:.1em;}
+  .stat-value{font-size:19px;font-weight:700;color:var(--paper);}
+
+  /* nav strip */
+  .qnav{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 14px;margin-bottom:6px;
+        scrollbar-width:thin;}
+  .qnav::-webkit-scrollbar{height:6px;}
+  .qnav::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px;}
+  .qcard{flex:none;width:206px;text-align:left;background:var(--panel);border:1px solid var(--line);
+        border-radius:12px;padding:12px 14px;cursor:pointer;color:var(--paper);font-family:inherit;}
+  .qcard .qn{color:var(--amber);font-weight:800;font-size:13px;}
+  .qcard .qt{display:block;font-size:13.5px;font-weight:600;margin-top:6px;line-height:1.35;}
+  .qcard.active{border-color:var(--amber);background:linear-gradient(180deg,var(--amber-soft),var(--panel));}
+  .qcard:not(.active){opacity:.62;}
+  .qcard:not(.active):hover{opacity:.9;}
+
+  /* panel */
+  .panels{border-top:1px solid var(--line);padding-top:26px;}
+  .panel{display:none;}
+  .panel.active{display:block;animation:fade .25s ease;}
+  @media (prefers-reduced-motion:reduce){.panel.active{animation:none;}}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  .eyebrow{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--fog);
+          text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;}
+  .tag{background:#132840;color:var(--kw);border:1px solid #234064;border-radius:999px;
+      padding:3px 10px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;}
+  h2.qtitle{font-size:25px;font-weight:800;margin:0 0 14px;letter-spacing:-0.01em;text-wrap:balance;}
+  .brief{color:#c7cde3;font-size:15px;line-height:1.65;margin:0 0 22px;max-width:65ch;}
+
+  .scriptlabel{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .scriptlabel span{font-size:11.5px;color:var(--fog);letter-spacing:.08em;text-transform:uppercase;}
+  .scriptlabel span b{color:var(--paper);font-family:'JetBrains Mono',monospace;font-weight:500;
+                       letter-spacing:0;text-transform:none;}
+  .copybtn{background:var(--panel-2);border:1px solid var(--line);color:var(--fog);font-size:11.5px;
+           border-radius:7px;padding:5px 11px;cursor:pointer;font-family:inherit;}
+  .copybtn:hover{color:var(--paper);border-color:var(--fog);}
+
+  pre.code{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:10px;
+          padding:16px 18px;overflow-x:auto;margin:0 0 22px;}
+  pre.code code{font-family:'JetBrains Mono',monospace;font-size:12.6px;line-height:1.65;
+               color:#c9d1eb;white-space:pre;}
+  .tk-k{color:var(--kw);} .tk-s{color:var(--str);} .tk-n{color:var(--num);}
+  .tk-c{color:var(--com);font-style:italic;} .tk-f{color:var(--fn);} .tk-p{color:var(--paper);}
+
+  .verified{border-left:3px solid var(--teal);background:var(--panel);border-radius:0 10px 10px 0;
+            padding:14px 18px;}
+  .verified .vt{color:var(--teal);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+                font-weight:700;margin-bottom:8px;}
+  .verified p{margin:0 0 8px;font-size:14px;line-height:1.6;color:#c7cde3;}
+  .verified p:last-child{margin-bottom:0;}
+  .metric{color:var(--amber);font-weight:700;font-family:'JetBrains Mono',monospace;font-size:.95em;}
+
+  .pager{display:flex;justify-content:space-between;align-items:center;margin-top:26px;}
+  .pager button{background:var(--panel);border:1px solid var(--line);color:var(--paper);
+                border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;font-family:inherit;}
+  .pager button:disabled{opacity:.35;cursor:default;}
+  .pager button:not(:disabled):hover{border-color:var(--amber);}
+  #counter{color:var(--fog);font-size:12.5px;font-variant-numeric:tabular-nums;}
+
+  .credit{margin-top:36px;color:#556;font-size:12px;text-align:center;}
+
+  @media (max-width:520px){
+    .tagline{text-align:left;max-width:none;}
+    .stats{gap:16px 22px;}
+    h2.qtitle{font-size:21px;}
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" fill="none">
+        <path d="M24 4 L28 20 L44 26 L28 28 L26 44 L22 44 L20 28 L4 26 L20 20 Z" fill="#f5b942"/>
+      </svg>
+      <div>
+        <div class="brand-name">Vayu Air</div>
+        <div class="brand-sub">Warehouse</div>
+      </div>
+    </div>
+    <p class="tagline">Data Modeling &amp; Warehouse Engineering · SQL Server T-SQL</p>
+  </header>
+
+  <ul class="stats" id="stats"></ul>
+
+  <nav class="qnav" id="qnav"></nav>
+
+  <main class="panels" id="panels"></main>
+
+  <footer class="pager">
+    <button id="prevBtn">← prev</button>
+    <span id="counter"></span>
+    <button id="nextBtn">next →</button>
+  </footer>
+
+  <p class="credit">Codebasics Data Engineering Bootcamp · Session 3 — Data Modeling &amp; Warehouse Engineering</p>
+</div>
+
+<script>
+const STATS = [
+  ['bookings','40,000'],
+  ['passengers (current)','1,550'],
+  ['flights','2,000'],
+  ['airports','24'],
+  ['fact partitions','17'],
+];
+
+const QUESTIONS = [
+{
+  cat:'WARM-UP', tag:'GRAIN', num:'Q1',
+  title:'One row = one ticket sold',
+  brief:`Before any table exists, the grain gets written down: booking_id is the unique identifier across all 40,000 bronze_bookings rows, so FactTicketSales is a straight, one-to-one dimensionalized copy of the booking feed — not a roll-up, not a fan-out.`,
+  file:'sql/01_grain_and_classification.sql',
+  code:`-- GRAIN: one row in FactTicketSales = one ticket sold
+--        (a single booking_id: one passenger's seat on one flight)
+--
+-- Dimension keys : passenger_id, flight_id, booking_date, travel_date
+-- Measures (additive) : fare_amount, tax_amount, miles_earned
+-- Attributes (plain, not dimensionalized) : fare_class, booking_status`,
+  vt:'Checked against the loaded data',
+  vp:[`booking_id is unique across all <span class="metric">40,000</span> rows in bronze_bookings — confirmed before a single CREATE TABLE was written, so the grain statement isn't a guess.`]
+},
+{
+  cat:'SCHEMA', tag:'STAR SCHEMA', num:'Q2',
+  title:'Six tables, one role-playing date dimension',
+  brief:`DimDate carries yyyymmdd as its own business key — no lookup needed to build it — and gets reused through two separate foreign keys on the fact (BookingDateKey, TravelDateKey), since an airline sale genuinely has two dates that matter.`,
+  file:'sql/02_star_schema_ddl.sql',
+  code:`CREATE TABLE dw.FactTicketSales (
+    BookingID      BIGINT        NOT NULL PRIMARY KEY,
+    BookingDateKey INT           NOT NULL REFERENCES dw.DimDate(DateKey),
+    TravelDateKey  INT           NOT NULL REFERENCES dw.DimDate(DateKey),
+    PassengerKey   INT           NOT NULL REFERENCES dw.DimPassenger(PassengerKey),
+    FlightKey      INT           NOT NULL REFERENCES dw.DimFlight(FlightKey),
+    FareClass      VARCHAR(20)   NOT NULL,
+    BookingStatus  VARCHAR(20)   NOT NULL,
+    FareAmount     DECIMAL(18,2) NOT NULL,
+    TaxAmount      DECIMAL(18,2) NOT NULL,
+    MilesEarned    INT           NOT NULL
+);`,
+  vt:'Checked against the loaded data',
+  vp:[`All six dw.* tables — DimDate, DimAirport, DimAircraft, DimPassenger, DimFlight, FactTicketSales — created clean and visible in Object Explorer on the first run.`]
+},
+{
+  cat:'ETL', tag:'JOIN', num:'Q3',
+  title:'Dimensions first, fact last',
+  brief:`Load order follows the foreign-key graph: DimDate and the leaf dimensions first, DimFlight after DimAirport/DimAircraft, then FactTicketSales joined to every dimension on its business key — inner joins throughout, since every key in the bronze tables is validated to always resolve.`,
+  file:'sql/03_load_dimensions_and_fact.sql',
+  code:`INSERT INTO dw.FactTicketSales (
+    BookingID, BookingDateKey, TravelDateKey,
+    PassengerKey, FlightKey, FareClass, BookingStatus,
+    FareAmount, TaxAmount, MilesEarned
+)
+SELECT b.booking_id, dBook.DateKey, dTravel.DateKey,
+       p.PassengerKey, f.FlightKey, b.fare_class, b.booking_status,
+       b.fare_amount, b.tax_amount, b.miles_earned
+FROM bronze_bookings b
+JOIN dw.DimDate      dBook   ON dBook.FullDate   = b.booking_date
+JOIN dw.DimDate      dTravel ON dTravel.FullDate = b.travel_date
+JOIN dw.DimPassenger p       ON p.PassengerID    = b.passenger_id
+JOIN dw.DimFlight    f       ON f.FlightID       = b.flight_id;`,
+  vt:'Checked against the loaded data',
+  vp:[`fact_rows = <span class="metric">40,000</span>, matching bronze_bookings exactly.`,
+      `All four orphan-FK checks — booking date, travel date, passenger, flight — came back <span class="metric">0</span>.`]
+},
+{
+  cat:'NORMALIZE', tag:'SNOWFLAKE', num:'Q4',
+  title:'Splitting geography into country → city → airport',
+  brief:`Region turned out to be a country-level fact, not an airport-level one — every country in the real 24-row airport table maps to exactly one region — so it lives on DimCountry. The rebuild is an in-place ALTER, not a drop-and-recreate, so AirportKey values already referenced by DimFlight and DimPassenger never change.`,
+  file:'sql/04_snowflake_geography.sql',
+  code:`ALTER TABLE dw.DimAirport ADD CityKey INT NULL;
+
+UPDATE a SET a.CityKey = c.CityKey
+FROM dw.DimAirport a
+JOIN dw.DimCity c ON c.CityName = a.City;
+
+ALTER TABLE dw.DimAirport ALTER COLUMN CityKey INT NOT NULL;
+ALTER TABLE dw.DimAirport ADD CONSTRAINT FK_Airport_City
+    FOREIGN KEY (CityKey) REFERENCES dw.DimCity(CityKey);`,
+  vt:'Checked against the loaded data',
+  vp:[`All <span class="metric">24</span> airports resolve cleanly airport → city → country → region — CDG → Paris → France → Europe, HKG → Hong Kong → Hong Kong → East Asia. No orphans.`]
+},
+{
+  cat:'SCD2', tag:'MERGE', num:'Q5',
+  title:'Tracking passenger history with SCD Type 2',
+  brief:`IsCurrent / EffectiveFrom / EffectiveTo get added to the existing DimPassenger in place. A two-pass pattern applies stg_passenger_updates: expire changed current rows and insert brand-new passengers first, then open a new current version for everyone just expired.`,
+  file:'sql/05_scd2_passenger_dimension.sql',
+  code:`MERGE dw.DimPassenger AS tgt
+USING stg_passenger_updates AS src
+   ON tgt.PassengerID = src.passenger_id AND tgt.IsCurrent = 1
+WHEN MATCHED AND (src.frequent_flyer_tier <> tgt.FrequentFlyerTier
+               OR src.home_airport_code  <> tgt.HomeAirportCode)
+  THEN UPDATE SET tgt.IsCurrent = 0, tgt.EffectiveTo = @AsOf
+WHEN NOT MATCHED BY TARGET
+  THEN INSERT (PassengerID, PassengerName, FrequentFlyerTier, IsCurrent, EffectiveFrom, EffectiveTo)
+       VALUES (src.passenger_id, src.passenger_name, src.frequent_flyer_tier, 1, @AsOf, '9999-12-31');
+-- pass 2: re-open a new current row for every passenger just expired above`,
+  vt:'Checked against the loaded data',
+  vp:[`1,500 → <span class="metric">1,750</span> total rows, 1,500 → <span class="metric">1,550</span> current rows.`,
+      `Passenger 700000: Blue tier expired 2024-09-19 → 2026-09-17, Silver tier current since.`,
+      `Zero duplicate current versions, zero orphaned fact rows.`]
+},
+{
+  cat:'PARTITION', tag:'EXECUTION PLAN', num:'Q6',
+  title:'Partitioning FactTicketSales by travel date',
+  brief:`Monthly RANGE RIGHT boundaries span the full travel_date range, giving 17 partitions on the column an airline's "sales by travel period" reporting actually filters on. A predicate on the partition key eliminates before execution even starts; a predicate on any other column can't.`,
+  file:'sql/06_partition_fact_ticket_sales.sql',
+  code:`CREATE PARTITION FUNCTION PF_TravelDateKey (INT)
+    AS RANGE RIGHT FOR VALUES (
+        20250101, 20250201, 20250301, /* ... */ 20260301, 20260401
+    );  -- 16 boundaries -> 17 partitions
+
+SELECT COUNT(*) AS bookings, SUM(FareAmount) AS total_fare
+FROM dw.FactTicketSales
+WHERE TravelDateKey >= 20250601 AND TravelDateKey < 20250701
+OPTION (RECOMPILE);  -- forces exact elimination, not a padded range`,
+  vt:'Checked against the loaded data',
+  vp:[`Query A (filters TravelDateKey): Actual Partition Count = <span class="metric">1</span>.`,
+      `Query B (filters BookingStatus/FareClass): Actual Partition Count = <span class="metric">17</span> — every partition, because nothing in that predicate maps to a boundary.`,
+      `Bonus finding: without OPTION (RECOMPILE), SQL Server's auto-parameterization pads Query A to 2 partitions, since it can no longer be certain at compile time exactly where a parameter falls against a boundary.`]
+},
+{
+  cat:'GOVERNANCE', tag:'DATA CONTRACT', num:'Q7',
+  title:'Medallion mapping and the bronze_bookings data contract',
+  brief:`Bronze stays raw and source-shaped; silver conforms and stabilizes (SCD2 identity, normalized geography, surrogate keys); gold is the curated, partitioned star built for the queries dashboards actually run. A written contract on bronze_bookings makes the promise explicit, not assumed.`,
+  file:'docs/data_contract_bronze_bookings.md',
+  code:`fare_class      : Economy | Premium Economy | Business | First
+booking_status  : Confirmed | Cancelled | NoShow
+
+Non-breaking : add an optional column (e.g. payment_method)
+Breaking     : add a new allowed booking_status (e.g. 'Refunded') --
+               looks additive, but silently miscounts in every existing
+               revenue query written against only the 3 known statuses`,
+  vt:'What the contract enforces',
+  vp:[`Any value outside the allowed lists is a contract violation to quarantine and alert on — not a new category to silently accept.`,
+      `Full schema, types, freshness SLA and ownership are in docs/data_contract_bronze_bookings.md.`]
+}
+];
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+const KEYWORDS = new Set(['SELECT','FROM','WHERE','JOIN','ON','INSERT','INTO','VALUES','UPDATE','SET',
+  'CREATE','TABLE','ALTER','ADD','COLUMN','CONSTRAINT','FOREIGN','KEY','REFERENCES','PRIMARY','NOT','NULL',
+  'MERGE','USING','WHEN','MATCHED','THEN','BY','TARGET','PARTITION','FUNCTION','RANGE','RIGHT','FOR','AS',
+  'AND','OR','IN','OPTION','RECOMPILE','GROUP','ORDER','DESC','ASC']);
+const FUNCS = new Set(['COUNT','SUM','MAX','MIN','AVG']);
+
+function highlightSql(code){
+  const re = /(--[^\n]*)|(\/\*[\s\S]*?\*\/)|('(?:[^']|'')*')|(\b\d+(?:\.\d+)?\b)|(@\w+)|(\b[A-Za-z_][A-Za-z0-9_]*\b)/g;
+  let out='', last=0, m;
+  while((m = re.exec(code))){
+    out += escapeHtml(code.slice(last, m.index));
+    last = re.lastIndex;
+    const [full, comment, block, str, num, param, word] = m;
+    if(comment || block) out += `<span class="tk-c">${escapeHtml(full)}</span>`;
+    else if(str) out += `<span class="tk-s">${escapeHtml(full)}</span>`;
+    else if(num) out += `<span class="tk-n">${escapeHtml(full)}</span>`;
+    else if(param) out += `<span class="tk-p">${escapeHtml(full)}</span>`;
+    else if(word){
+      const up = full.toUpperCase();
+      if(KEYWORDS.has(up)) out += `<span class="tk-k">${full}</span>`;
+      else if(FUNCS.has(up)) out += `<span class="tk-f">${full}</span>`;
+      else out += full;
+    } else out += escapeHtml(full);
+  }
+  out += escapeHtml(code.slice(last));
+  return out;
+}
+
+let active = 0;
+
+function render(){
+  document.getElementById('stats').innerHTML = STATS.map(([label,value]) =>
+    `<li><span class="stat-label">${escapeHtml(label)}</span><span class="stat-value">${escapeHtml(value)}</span></li>`
+  ).join('');
+
+  document.getElementById('qnav').innerHTML = QUESTIONS.map((q,i) =>
+    `<button class="qcard${i===active?' active':''}" data-i="${i}">
+       <span class="qn">${q.num}</span>
+       <span class="qt">${escapeHtml(q.title)}</span>
+     </button>`
+  ).join('');
+
+  document.getElementById('panels').innerHTML = QUESTIONS.map((q,i) => `
+    <section class="panel${i===active?' active':''}" data-i="${i}">
+      <div class="eyebrow"><span>${q.num} · ${escapeHtml(q.cat)}</span><span class="tag">${escapeHtml(q.tag)}</span></div>
+      <h2 class="qtitle">${escapeHtml(q.title)}</h2>
+      <p class="brief">${escapeHtml(q.brief)}</p>
+      <div class="scriptlabel">
+        <span>script <b>${escapeHtml(q.file)}</b></span>
+        <button class="copybtn" data-copy="${i}">copy</button>
+      </div>
+      <pre class="code"><code>${highlightSql(q.code)}</code></pre>
+      <div class="verified">
+        <div class="vt">${escapeHtml(q.vt)}</div>
+        ${q.vp.map(p => `<p>${p}</p>`).join('')}
+      </div>
+    </section>
+  `).join('');
+
+  document.getElementById('counter').textContent = `Q${active+1} of ${QUESTIONS.length}`;
+  document.getElementById('prevBtn').disabled = active === 0;
+  document.getElementById('nextBtn').disabled = active === QUESTIONS.length - 1;
+
+  document.querySelectorAll('.qcard').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ active = Number(btn.dataset.i); render();
+      document.querySelector('.qcard.active')?.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'}); });
+  });
+  document.querySelectorAll('.copybtn').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const q = QUESTIONS[Number(btn.dataset.copy)];
+      try{ await navigator.clipboard.writeText(q.code); btn.textContent='copied'; }
+      catch(e){ btn.textContent='select & copy'; }
+      setTimeout(()=>{ btn.textContent='copy'; }, 1400);
+    });
+  });
+}
+
+document.getElementById('prevBtn').addEventListener('click', ()=>{ if(active>0){active--; render();} });
+document.getElementById('nextBtn').addEventListener('click', ()=>{ if(active<QUESTIONS.length-1){active++; render();} });
+
+render();
+</script>

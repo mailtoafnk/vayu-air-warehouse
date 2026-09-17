@@ -1,0 +1,25 @@
+airport_code,airport_name,city,country,region
+DEL,Indira Gandhi Intl,Delhi,India,South Asia
+BOM,Chhatrapati Shivaji,Mumbai,India,South Asia
+BLR,Kempegowda Intl,Bengaluru,India,South Asia
+HYD,Rajiv Gandhi Intl,Hyderabad,India,South Asia
+MAA,Chennai Intl,Chennai,India,South Asia
+CCU,Netaji Subhas Chandra Bose,Kolkata,India,South Asia
+COK,Cochin Intl,Kochi,India,South Asia
+GOI,Goa Intl,Goa,India,South Asia
+PNQ,Pune Intl,Pune,India,South Asia
+AMD,Sardar Vallabhbhai Patel,Ahmedabad,India,South Asia
+DXB,Dubai Intl,Dubai,United Arab Emirates,Middle East
+AUH,Zayed Intl,Abu Dhabi,United Arab Emirates,Middle East
+DOH,Hamad Intl,Doha,Qatar,Middle East
+SIN,Changi,Singapore,Singapore,Southeast Asia
+KUL,Kuala Lumpur Intl,Kuala Lumpur,Malaysia,Southeast Asia
+BKK,Suvarnabhumi,Bangkok,Thailand,Southeast Asia
+CMB,Bandaranaike Intl,Colombo,Sri Lanka,South Asia
+KTM,Tribhuvan Intl,Kathmandu,Nepal,South Asia
+LHR,Heathrow,London,United Kingdom,Europe
+FRA,Frankfurt,Frankfurt,Germany,Europe
+CDG,Charles de Gaulle,Paris,France,Europe
+JFK,John F Kennedy Intl,New York,United States,North America
+SFO,San Francisco Intl,San Francisco,United States,North America
+HKG,Hong Kong Intl,Hong Kong,Hong Kong,East Asia

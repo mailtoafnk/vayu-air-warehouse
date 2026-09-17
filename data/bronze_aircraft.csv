@@ -1,0 +1,11 @@
+aircraft_code,model,manufacturer,seat_capacity
+AC01,A320neo,Airbus,180
+AC02,A321neo,Airbus,222
+AC03,A350-900,Airbus,325
+AC04,B737-800,Boeing,189
+AC05,B737 MAX 8,Boeing,197
+AC06,B787-8,Boeing,242
+AC07,B777-300ER,Boeing,396
+AC08,ATR 72-600,ATR,78
+AC09,A319,Airbus,144
+AC10,B787-9,Boeing,296
