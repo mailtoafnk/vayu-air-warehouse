@@ -29,7 +29,7 @@
     margin:0;
     padding:0 16px;
   }
-  .wrap{max-width:840px;margin:0 auto;padding-block:40px 56px;}
+  .wrap{max-width:1080px;margin:0 auto;padding-block:40px 56px;}
 
   a{color:var(--teal);}
 
@@ -49,21 +49,23 @@
   .stat-label{font-size:11.5px;color:var(--fog);text-transform:uppercase;letter-spacing:.1em;}
   .stat-value{font-size:19px;font-weight:700;color:var(--paper);}
 
-  /* nav strip */
-  .qnav{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 14px;margin-bottom:6px;
-        scrollbar-width:thin;}
-  .qnav::-webkit-scrollbar{height:6px;}
-  .qnav::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px;}
-  .qcard{flex:none;width:206px;text-align:left;background:var(--panel);border:1px solid var(--line);
-        border-radius:12px;padding:12px 14px;cursor:pointer;color:var(--paper);font-family:inherit;}
-  .qcard .qn{color:var(--amber);font-weight:800;font-size:13px;}
-  .qcard .qt{display:block;font-size:13.5px;font-weight:600;margin-top:6px;line-height:1.35;}
-  .qcard.active{border-color:var(--amber);background:linear-gradient(180deg,var(--amber-soft),var(--panel));}
-  .qcard:not(.active){opacity:.62;}
-  .qcard:not(.active):hover{opacity:.9;}
+  /* two-column layout: question list on the left, detail on the right */
+  .layout{display:flex;gap:30px;align-items:flex-start;}
+
+  .sidebar{flex:0 0 250px;display:flex;flex-direction:column;gap:4px;
+           position:sticky;top:20px;}
+  .qitem{display:flex;flex-direction:column;gap:3px;text-align:left;background:transparent;
+        border:none;border-left:3px solid var(--line-soft);border-radius:0 8px 8px 0;
+        padding:9px 14px;cursor:pointer;color:var(--fog);font-family:inherit;}
+  .qitem .qn{color:var(--amber);font-weight:800;font-size:12px;letter-spacing:.03em;}
+  .qitem .qt{font-size:13.5px;font-weight:600;line-height:1.35;color:var(--paper);}
+  .qitem.active{border-left-color:var(--amber);background:linear-gradient(90deg,var(--amber-soft),transparent);}
+  .qitem:not(.active) .qt{color:#aab2cc;}
+  .qitem:not(.active):hover{background:var(--panel-2);}
 
   /* panel */
-  .panels{border-top:1px solid var(--line);padding-top:26px;}
+  .main{flex:1;min-width:0;border-left:1px solid var(--line);padding-left:32px;}
+  .panels{}
   .panel{display:none;}
   .panel.active{display:block;animation:fade .25s ease;}
   @media (prefers-reduced-motion:reduce){.panel.active{animation:none;}}
@@ -108,6 +110,17 @@
 
   .credit{margin-top:36px;color:#556;font-size:12px;text-align:center;}
 
+  @media (max-width:760px){
+    .layout{flex-direction:column;gap:16px;align-items:stretch;}
+    .sidebar{flex:none;width:100%;flex-direction:row;overflow-x:auto;position:static;
+             gap:8px;padding-bottom:6px;scrollbar-width:thin;}
+    .qitem{flex:0 0 auto;min-width:170px;border-left:none;border-bottom:3px solid var(--line-soft);
+          border-radius:8px 8px 0 0;}
+    .qitem.active{background:linear-gradient(180deg,var(--amber-soft),transparent);}
+    .main{flex:none;width:100%;min-width:0;border-left:none;padding-left:0;
+          border-top:1px solid var(--line);padding-top:20px;}
+  }
+
   @media (max-width:520px){
     .tagline{text-align:left;max-width:none;}
     .stats{gap:16px 22px;}
@@ -131,9 +144,10 @@
 
   <ul class="stats" id="stats"></ul>
 
-  <nav class="qnav" id="qnav"></nav>
-
-  <main class="panels" id="panels"></main>
+  <div class="layout">
+    <nav class="sidebar" id="qnav"></nav>
+    <main class="main"><div class="panels" id="panels"></div></main>
+  </div>
 
   <footer class="pager">
     <button id="prevBtn">← prev</button>
@@ -324,8 +338,8 @@ function render(){
   ).join('');
 
   document.getElementById('qnav').innerHTML = QUESTIONS.map((q,i) =>
-    `<button class="qcard${i===active?' active':''}" data-i="${i}">
-       <span class="qn">${q.num}</span>
+    `<button class="qitem${i===active?' active':''}" data-i="${i}">
+       <span class="qn">${q.num} · ${escapeHtml(q.cat)}</span>
        <span class="qt">${escapeHtml(q.title)}</span>
      </button>`
   ).join('');
@@ -351,9 +365,9 @@ function render(){
   document.getElementById('prevBtn').disabled = active === 0;
   document.getElementById('nextBtn').disabled = active === QUESTIONS.length - 1;
 
-  document.querySelectorAll('.qcard').forEach(btn=>{
+  document.querySelectorAll('.qitem').forEach(btn=>{
     btn.addEventListener('click', ()=>{ active = Number(btn.dataset.i); render();
-      document.querySelector('.qcard.active')?.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'}); });
+      document.querySelector('.qitem.active')?.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'}); });
   });
   document.querySelectorAll('.copybtn').forEach(btn=>{
     btn.addEventListener('click', async ()=>{
